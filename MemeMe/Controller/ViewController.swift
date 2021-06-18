@@ -24,21 +24,22 @@ class ViewController: UIViewController {
         NSAttributedString.Key.strokeColor: UIColor.black,
         NSAttributedString.Key.foregroundColor: UIColor.white,
         NSAttributedString.Key.font: UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
-        NSAttributedString.Key.strokeWidth:  2.5,
+        NSAttributedString.Key.strokeWidth:  -2.5,
     ]
     
-    @IBAction func albumPressed(_ sender: UIBarButtonItem) {
+    func presentPickerViewController(source: UIImagePickerController.SourceType) {
         let pickerController = UIImagePickerController()
         pickerController.delegate = self
-        pickerController.sourceType = .photoLibrary
+        pickerController.sourceType = source
         self.present(pickerController, animated: true, completion: nil)
     }
     
+    @IBAction func albumPressed(_ sender: UIBarButtonItem) {
+        presentPickerViewController(source: .photoLibrary)
+    }
+    
     @IBAction func cameraPressed(_ sender: UIBarButtonItem) {
-        let pickerController = UIImagePickerController()
-        pickerController.delegate = self
-        pickerController.sourceType = .camera
-        self.present(pickerController, animated: true, completion: nil)
+        presentPickerViewController(source: .camera)
     }
     
     @IBAction func actionPressed(_ sender: UIBarButtonItem) {
