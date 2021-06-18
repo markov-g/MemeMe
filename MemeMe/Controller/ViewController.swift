@@ -46,7 +46,7 @@ class ViewController: UIViewController {
         let controller = UIActivityViewController(activityItems: [memedImage], applicationActivities: nil)
         controller.completionWithItemsHandler = { (type, ok, items, error) in
             if ok {
-                _ = self.save()
+                self.save()
             }
         }
 
@@ -55,8 +55,11 @@ class ViewController: UIViewController {
     
     @IBAction func cancelPressed(_ sender: UIBarButtonItem) {
         imgView.image = nil
+        shareBtn.isEnabled = false
         topTxtField.text = ""
         bottomTxtField.text = ""
+        
+        dismiss(animated: true, completion: nil)
     }
     
     
@@ -105,9 +108,9 @@ class ViewController: UIViewController {
         return memedImage
     }
     
-    func save() -> Meme {
+    func save() -> Void {
         let meme = Meme(topText: topTxtField.text!, bottomText: bottomTxtField.text!, originalImage: imgView.image!, memedImage: generateMemedImage())
-        return meme
+        dismiss(animated: true, completion: nil)
     }
 }
 
