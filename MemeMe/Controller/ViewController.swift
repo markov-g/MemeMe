@@ -16,7 +16,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var shareBtn: UIBarButtonItem!
     @IBOutlet weak var cancelBtn: UIBarButtonItem!
     @IBOutlet weak var toolbar: UIToolbar!
-    
+        
     var frame_h: CGFloat = 0
     var frame_w: CGFloat = 0
     
@@ -31,6 +31,7 @@ class ViewController: UIViewController {
         let pickerController = UIImagePickerController()
         pickerController.delegate = self
         pickerController.sourceType = source
+        pickerController.setEditing(true, animated: true)
         self.present(pickerController, animated: true, completion: nil)
     }
     
@@ -61,6 +62,7 @@ class ViewController: UIViewController {
         bottomTxtField.text = ""
         
         dismiss(animated: true, completion: nil)
+        navigationController?.popToRootViewController(animated: true)
     }
     
     
@@ -86,7 +88,7 @@ class ViewController: UIViewController {
         bottomTxtField.delegate = self
         
         frame_h = view.frame.size.height
-        frame_w = view.frame.size.width
+        frame_w = view.frame.size.width                
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -111,6 +113,8 @@ class ViewController: UIViewController {
     
     func save() -> Void {
         let meme = Meme(topText: topTxtField.text!, bottomText: bottomTxtField.text!, originalImage: imgView.image!, memedImage: generateMemedImage())
+        Meme.add(meme)
+        
         dismiss(animated: true, completion: nil)
     }
 }
