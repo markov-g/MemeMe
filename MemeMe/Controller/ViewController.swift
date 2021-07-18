@@ -32,7 +32,7 @@ class ViewController: UIViewController {
         pickerController.delegate = self
         pickerController.sourceType = source
         pickerController.setEditing(true, animated: true)
-        self.present(pickerController, animated: true, completion: nil)
+        present(pickerController, animated: true, completion: nil)
     }
     
     @IBAction func albumPressed(_ sender: UIBarButtonItem) {
@@ -66,17 +66,19 @@ class ViewController: UIViewController {
     }
     
     
+    fileprivate func setupTextField(textField: UITextField) {
+        textField.defaultTextAttributes = memeTextAttributes
+        textField.textAlignment = .center
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.camBtn.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
         shareBtn.isEnabled = false
         
-        bottomTxtField.defaultTextAttributes = memeTextAttributes
-        topTxtField.defaultTextAttributes = memeTextAttributes
-        
-        
-        topTxtField.textAlignment = .center
-        bottomTxtField.textAlignment = .center
+        setupTextField(textField: topTxtField)
+        setupTextField(textField: bottomTxtField)
+        tabBarController?.tabBar.isHidden = true
         
         subscribeToKeyboardNotifications()
     }
@@ -93,6 +95,7 @@ class ViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        tabBarController?.tabBar.isHidden = false
         unsubscribeFromKeyboardNotifications()
     }
     
@@ -142,8 +145,7 @@ extension ViewController {
     }
     
     func unsubscribeFromKeyboardNotifications() {
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.removeObserver(self)
     }
     
     @objc func keyboardWillShow(_ notification:Notification) {
